@@ -3,6 +3,7 @@ package contentful
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -28,7 +29,7 @@ type Collection struct {
 // NewCollection initilazies a new collection
 func NewCollection(options *CollectionOptions) *Collection {
 	query := NewQuery()
-	query.Order("sys.createdAt", true)
+	// query.Order("sys.createdAt", true)
 
 	if options.Limit > 0 {
 		query.Limit(options.Limit)
@@ -43,13 +44,16 @@ func NewCollection(options *CollectionOptions) *Collection {
 // Next makes the col.req
 func (col *Collection) Next() (*Collection, error) {
 	// setup query params
-	skip := uint16(col.Limit) * (col.page - 1)
-	col.Query.Skip(skip)
+	// skip := uint16(col.Limit) * (col.page - 1)
+	// col.Query.Skip(2)
+	// col.Query.Order("sys.updatedAt", true)
 
 	// override request query
 	col.req.URL.RawQuery = col.Query.String()
 
 	// makes api call
+	fmt.Println("Req: ", col.req)
+	fmt.Println("Values: ", col)
 	err := col.c.do(col.req, col)
 	if err != nil {
 		return nil, err
