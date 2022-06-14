@@ -44,8 +44,8 @@ func NewCollection(options *CollectionOptions) *Collection {
 // Next makes the col.req
 func (col *Collection) Next() (*Collection, error) {
 	// setup query params
-	// skip := uint16(col.Limit) * (col.page - 1)
-	// col.Query.Skip(2)
+	skip := uint16(col.Limit) * (col.page - 1)
+	col.Query.Skip(skip)
 	// col.Query.Order("sys.updatedAt", true)
 
 	// override request query
